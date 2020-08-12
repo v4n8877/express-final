@@ -1,0 +1,53 @@
+extends ../layouts/common.pug
+
+block content
+  h1(style="text-align: center; margin-top: 1.5rem") List Stores
+
+  if users && users.isAdmin
+    a(href="/stores/create")
+      h3 Create a book
+  table.table
+    thead.thead-dark
+      tr
+        th(scope="col") ID
+        th(scope="col") Name
+        th(scope="col") Icon
+        th(scope="col") action
+    tbody
+    each store in stores
+      tr
+        th(scope='row' style="vertical-align: middle;")
+          span
+            b= store._id
+        td(style="vertical-align: middle;")
+          span
+            b= store.title
+        td(style="vertical-align: middle;")
+          img(src=`${book.image || ""}`, alt="", style="width: 260px; height: 280px;")
+        td(style="vertical-align: middle;")
+            a(href="/books/"+book.id+"/update", style="margin-left: 10px;") Update
+            a(href="/books/"+book.id+"/delete", style="margin-left: 10px;") Delete
+  nav(aria-label="Page navigation example")
+    ul.pagination
+      if currentPage > 1
+        li.page-item
+          a.page-link(href="/stores?page="+`${currentPage > 1 ? currentPage - 1 : 1}` name="page") Previous
+      else
+        li.page-item.disabled
+          a.page-link(href="/stores?page="+`${currentPage > 1 ? currentPage - 1 : 1}` name="page") Previous
+      each count in pageCount
+        if count === currentPage
+          li.page-item.active
+            a.page-link(href="/stores?page="+`${count}` name="page")= count
+        else if count === '...'
+          li.page-item.disabled
+            a.page-link(href="/stores?page="+`${count}` name="page")= count
+        else
+          li.page-item
+            a.page-link(href="/stores?page="+`${count}` name="page")= count
+      if currentPage >= pageCount[pageCount.length - 1]
+        li.page-item.disabled
+          a.page-link(href="/stores?page="+`${currentPage >= pageCount.length ? currentPage : currentPage + 1}` name="page") Next
+      else
+        li.page-item
+          a.page-link(href="/stores?page="+`${currentPage >= pageCount.length ? currentPage : currentPage + 1}` name="page") Next
