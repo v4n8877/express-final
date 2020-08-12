@@ -1,11 +1,8 @@
 extends ../layouts/common.pug
 
 block content
-  h1(style="text-align: center; margin-top: 1.5rem") Manager Books
+  h1(style="text-align: center; margin-top: 1.5rem") List Books
 
-  if user && user.isAdmin
-    a(href="/books/create")
-      h3 Create a book
   table.table
     thead.thead-dark
       tr
@@ -18,39 +15,35 @@ block content
       tr
         th(scope='row' style="vertical-align: middle;")
           span
-            b= book.id
+            b= book._id
         td(style="vertical-align: middle;")
           span
             b= book.title
         td(style="vertical-align: middle;")
           img(src=`${book.image || ""}`, alt="", style="width: 260px; height: 280px;")
         td(style="vertical-align: middle;")
-          if user && user.isAdmin
-            a(href="/books/"+book.id+"/update", style="margin-left: 10px;") Update
-            a(href="/books/"+book.id+"/delete", style="margin-left: 10px;") Delete
-          else
             a(href="/cart/add/" + book.id, style="margin-left: 10px;") Add to cart
   nav(aria-label="Page navigation example")
     ul.pagination
       if currentPage > 1
         li.page-item
-          a.page-link(href="/books?page="+`${currentPage > 1 ? currentPage - 1 : 1}` name="page") Previous
+          a.page-link(href="/stores/"+storeId+"/books?page="+`${currentPage > 1 ? currentPage - 1 : 1}` name="page") Previous
       else
         li.page-item.disabled
-          a.page-link(href="/books?page="+`${currentPage > 1 ? currentPage - 1 : 1}` name="page") Previous
+          a.page-link(href="/stores/"+storeId+"/books?page="+`${currentPage > 1 ? currentPage - 1 : 1}` name="page") Previous
       each count in pageCount
         if count === currentPage
           li.page-item.active
-            a.page-link(href="/books?page="+`${count}` name="page")= count
+            a.page-link(href="/stores/"+storeId+"/books?page="+`${count}` name="page")= count
         else if count === '...'
           li.page-item.disabled
-            a.page-link(href="/books?page="+`${count}` name="page")= count
+            a.page-link(href="/stores/"+storeId+"/books?page="+`${count}` name="page")= count
         else
           li.page-item
-            a.page-link(href="/books?page="+`${count}` name="page")= count
+            a.page-link(href="/stores/"+storeId+"/books?page="+`${count}` name="page")= count
       if currentPage >= pageCount[pageCount.length - 1]
         li.page-item.disabled
-          a.page-link(href="/books?page="+`${currentPage >= pageCount.length ? currentPage : currentPage + 1}` name="page") Next
+          a.page-link(href="/stores/"+storeId+"/books?page="+`${currentPage >= pageCount.length ? currentPage : currentPage + 1}` name="page") Next
       else
         li.page-item
-          a.page-link(href="/books?page="+`${currentPage >= pageCount.length ? currentPage : currentPage + 1}` name="page") Next
+          a.page-link(href="/stores/"+storeId+"/books?page="+`${currentPage >= pageCount.length ? currentPage : currentPage + 1}` name="page") Next

@@ -6,6 +6,6 @@ const storeSchema = new mongoose.Schema({
   icon: String,
 });
 
-const Store = mongoose.model('Shop', storeSchema, 'stores');
+const Store = mongoose.model('Store', storeSchema, 'stores');
 
 module.exports = Store;

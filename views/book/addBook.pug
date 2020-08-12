@@ -1,0 +1,50 @@
+extends ../layouts/common.pug
+
+block content
+  form(action="/stores/"+storeId+"/add-items", method="POST")
+    table.table
+      thead.thead-dark
+        tr
+          th(scope="col") ID
+          th(scope="col") Title
+          th(scope="col") Image
+          th(scope="col") action
+      tbody
+      each book in books
+        tr
+          th(scope='row' style="vertical-align: middle;")
+            span
+              b= book._id
+          td(style="vertical-align: middle;")
+            span
+              b= book.title
+          td(style="vertical-align: middle;")
+            img(src=`${book.image || ""}`, alt="", style="width: 64px; height: 64px;")
+          td(style="vertical-align: middle;")
+            input(type="checkbox", name="items", value=book._id)
+    button.btn.btn-primary Add Items
+
+  nav(aria-label="Page navigation example")
+    ul.pagination
+      if currentPage > 1
+        li.page-item
+          a.page-link(href="/stores/"+storeId+"/add-items?page="+`${currentPage > 1 ? currentPage - 1 : 1}` name="page") Previous
+      else
+        li.page-item.disabled
+          a.page-link(href="/stores/"+storeId+"/add-items?page="+`${currentPage > 1 ? currentPage - 1 : 1}` name="page") Previous
+      each count in pageCount
+        if count === currentPage
+          li.page-item.active
+            a.page-link(href="/stores/"+storeId+"/add-items?page="+`${count}` name="page")= count
+        else if count === '...'
+          li.page-item.disabled
+            a.page-link(href="/stores/"+storeId+"/add-items?page="+`${count}` name="page")= count
+        else
+          li.page-item
+            a.page-link(href="/stores/"+storeId+"/add-items?page="+`${count}` name="page")= count
+      if currentPage >= pageCount[pageCount.length - 1]
+        li.page-item.disabled
+          a.page-link(href="/stores/"+storeId+"/add-items?page="+`${currentPage >= pageCount.length ? currentPage : currentPage + 1}` name="page") Next
+      else
+        li.page-item
+          a.page-link(href="/stores/"+storeId+"/add-items?page="+`${currentPage >= pageCount.length ? currentPage : currentPage + 1}` name="page") Next  

@@ -15,7 +15,12 @@ const msg = {
 };
 
 module.exports.login =  (req, res) => {
-  res.render('auth/login');
+  const userId = req.signedCookies.userId;
+  if (userId) {
+    res.redirect('/stores')
+  } else {
+    res.render('auth/login');
+  }
 };
 
 module.exports.postLogin = async (req, res) => {

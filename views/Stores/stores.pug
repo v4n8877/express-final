@@ -5,7 +5,7 @@ block content
 
   if users && users.isAdmin
     a(href="/stores/create")
-      h3 Create a book
+      h3 Create a Store
   table.table
     thead.thead-dark
       tr
@@ -18,15 +18,17 @@ block content
       tr
         th(scope='row' style="vertical-align: middle;")
           span
-            b= store._id
+            a(href="/stores/"+store._id+"/books", style="margin-left: 10px;")
+              b= store._id
         td(style="vertical-align: middle;")
           span
-            b= store.title
+            b= store.name
         td(style="vertical-align: middle;")
-          img(src=`${book.image || ""}`, alt="", style="width: 260px; height: 280px;")
+          img(src=`${store.icon || ""}`, alt="", style="width: 260px; height: 280px;")
         td(style="vertical-align: middle;")
-            a(href="/books/"+book.id+"/update", style="margin-left: 10px;") Update
-            a(href="/books/"+book.id+"/delete", style="margin-left: 10px;") Delete
+            a(href="/stores/"+store._id+"/update", style="margin-left: 10px;") Update
+            a(href="/stores/"+store._id+"/delete", style="margin-left: 10px;") Delete
+            a(href="/stores/"+store._id+"/add-items", style="margin-left: 10px;") Add items
   nav(aria-label="Page navigation example")
     ul.pagination
       if currentPage > 1
